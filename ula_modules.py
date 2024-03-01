@@ -27,18 +27,25 @@ def fullAdder(a, b, c, soma, carry):
     # s2 = Signal(bool(0))
     # s3 = Signal(bool(0))
 
-    half_1 = halfAdder(a, b, s[1], s[2])
-    half_2 = halfAdder(c, s[1], soma, s[3])
+    half_1 = halfAdder(a, b, s[0], s[1])
+    half_2 = halfAdder(c, s[0], soma, s[2])
 
     @always_comb
     def comb():
-        carry.next = s[2] or s[3]
+        carry.next = s[1] or s[2]
 
     return instances()
 
 
 @block
 def adder2bits(x, y, soma, carry):
+    c = Signal(bool(0))
+    half = halfAdder(x[0], y[0], soma[0], c)
+    
+    full = fullAdder(x[1], y[1], c, soma[1], carry)
+
+
+
     return instances()
 
 
